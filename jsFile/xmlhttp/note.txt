@@ -1,0 +1,28 @@
+# 
+## 跨域
+- 浏览器做的安全限制,不是后台所限制的.
+
+- 存在跨域的情况
+- 发送的请求xhr 请求
+
+### 解决思路
+- 浏览器(指定参数需要客户端做)
+    + 指定参数: Chrome --disable-web-security --user-data-dir=g:\temp3
+    + `chrome --disable-web-scurity --user-data-dir = address`
+- 修改请求类型(加载图片与新增script标签)
+    + xhr 请求类型
+    + 使用jsonp发送请求,需要注意的是jsonp并不是通用的,也需要后台的配合,如果后台不支持,jsonp也是不支持的!!!!
+- **跨域问题**
+    + 被调用方修改类型,允许支持跨域(支持跨域)
+        + 返回头提示允许支持跨域
+            + 修改服务器
+                + 增加过滤器,
+                    + 设置享响应头 `setHeader("Access-Control-Allow-Origin","http://a.com")`
+                    + 设置允许方法 `setHeader("Access-Control-Allow-Methods","GET")`
+                    + 设置允许指定头方法 `setHeader("Access-Control-Allow-Headers","Content-Type")`
+                    + 设置预检缓存时间 `setHeader("Access-Control-Max-Age","3600")`
+                    + 设置Cookie `setHeader("Access-Control-Allow-Credentials","true")` ** 使用cookie必须全部指定**
+                + 非简单请求会有一个预检命令OPTION,回去请求两次
+    + 调用方修改(隐藏跨域),通过代理,将请求的路局指定到被调用中,
+        + 使用http服务器发出,统一同源,不是直接a>b;而是 b>b
+
